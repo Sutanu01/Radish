@@ -10,6 +10,7 @@ Works similarly to the [Carrot](https://github.com/meooow25/carrot) browser exte
 2. Runs locally — set it up once, check your predicted rating during a contest whenever you want.
 3. **May not be as accurate as Carrot** ( **goated** obviously).
 4. Some edge cases may be ignored. Suggestions and contributions are welcome.
+5. This does not handle the case of new users ( less than 6 contests) properly as CF deals them differently.
 
 ## Requirements
 

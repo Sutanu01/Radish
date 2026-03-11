@@ -71,9 +71,10 @@ namespace RatingMath {
         for (int i = 0; i < m; i++) {
             res[i] = rc[i].imag() / 2.0;
         }
-        S.resize(MAX_RATING + 1, 0);
-        for (int i = 0; i <= MAX_RATING; i++) {
-            S[i] = (i + MAX_RATING < (int)res.size()) ? res[i + MAX_RATING] : 0;
+        int effectiveMax = (int)p.size() - 1;
+        S.resize(effectiveMax + 1, 0);
+        for (int i = 0; i <= effectiveMax; i++) {
+            S[i] = (i + effectiveMax < (int)res.size()) ? res[i + effectiveMax] : 0;
         }
     }
 
@@ -89,7 +90,7 @@ namespace RatingMath {
         return meanSquare;
     }
     int FindRatingForSeed(const vector<double>& S, double targetSeed) {
-        int l = 0, r = MAX_RATING;
+        int l = 0, r = (int)S.size() - 1;
         int targetRating = 0;
         while (l <= r) {
             int mid = (l + r) >> 1;

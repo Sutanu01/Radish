@@ -57,15 +57,23 @@ int main() {
 
 
     // calculating the seed , ratings etc...
-    vector<double> A(RatingMath::MAX_RATING + 1, 0);
-    vector<double> B(2 * RatingMath::MAX_RATING + 1, 0);
+    int minRating = 0;
+    for (const auto& c : contestants) {
+        if (c.participantType == "CONTESTANT")
+            minRating = min(minRating, c.preContestRating);
+    }
+    int shift = (minRating < 0) ? -minRating : 0;
+    int effectiveMax = RatingMath::MAX_RATING + shift;
+
+    vector<double> A(effectiveMax + 1, 0);
+    vector<double> B(2 * effectiveMax + 1, 0);
 
     for (const auto& c : contestants) {
         if (c.participantType == "CONTESTANT")
-            A[c.preContestRating]++;
+            A[c.preContestRating + shift]++;
     }
-    for (int i = 0; i < 2 * RatingMath::MAX_RATING + 1; i++) {
-        B[i] = RatingMath::prob_func(i - RatingMath::MAX_RATING);
+    for (int i = 0; i < 2 * effectiveMax + 1; i++) {
+        B[i] = RatingMath::prob_func(i - effectiveMax);
     }
 
     RatingMath::FFT fft;
@@ -74,11 +82,11 @@ int main() {
 
     for (auto& c : contestants) {
         if (c.participantType != "CONTESTANT") continue;
-        c.seed            = RatingMath::GetSeed(S, c.preContestRating);
+        c.seed            = RatingMath::GetSeed(S, c.preContestRating + shift);
         c.meanRank        = RatingMath::GetMeanRank(c.seed, c.rank);
-        c.predictedRating = RatingMath::FindRatingForSeed(S, c.meanRank);
-        c.performance     = RatingMath::ComputePerformance(S, c.rank);
-        c.delta           = RatingMath::ComputeDelta(S, c.preContestRating, c.rank);
+        c.predictedRating = RatingMath::FindRatingForSeed(S, c.meanRank) - shift;
+        c.performance     = RatingMath::ComputePerformance(S, c.rank) - shift;
+        c.delta           = RatingMath::ComputeDelta(S, c.preContestRating + shift, c.rank);
     }
 
 

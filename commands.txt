@@ -1,0 +1,10 @@
+COMPILING COMMAND : 
+
+g++ -std=c++17 -O2 -I. -Idependencies/data -Idependencies/math main.cpp dependencies/data/api_handler.cpp dependencies/data/simdjson.cpp dependencies/math/math_logic.cpp -lurlmon -o radish.exe
+
+
+
+EXECUTING COMMAND :
+
+.\radish.exe
+

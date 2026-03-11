@@ -1,0 +1,18 @@
+# Compiled binary
+radish.exe
+*.o
+*.obj
+
+# Temp files from API downloads
+cf_api_response.tmp.json
+
+# IDE / editor
+.vscode/
+*.swp
+*~
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+

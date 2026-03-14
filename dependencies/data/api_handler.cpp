@@ -122,7 +122,7 @@ namespace CodeforcesAPI {
     // Get all the user who have particiapted in atleast one contest and their current rating before the contest. Data for ongoing contest , i.e real use case
     bool build_rated_list_map(unordered_map<string, int>& rating_map) {
         const string url =
-            "https://codeforces.com/api/user.ratedList?activeOnly=true&includeRetired=false";
+            "https://codeforces.com/api/user.ratedList";
 
         const string json_data = fetch_api_data(url);
         if (json_data.empty()) return false;

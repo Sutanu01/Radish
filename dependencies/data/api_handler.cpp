@@ -96,6 +96,7 @@ namespace CodeforcesAPI {
 
         const string json_data = fetch_api_data(url);
         if (json_data.empty()) return false;
+        rating_map.clear();
         ondemand::parser parser;
         padded_string padded(json_data);
         ondemand::document doc;
@@ -106,6 +107,7 @@ namespace CodeforcesAPI {
         if (status != "OK") return false;
         ondemand::array changes;
         if (doc["result"].get(changes)) return false;
+        size_t loaded_count = 0;
         for (ondemand::object change : changes) {
             string_view handle_view;
             if (change["handle"].get(handle_view)) continue;
@@ -114,9 +116,10 @@ namespace CodeforcesAPI {
             string h(handle_view);
             for (char& ch : h) ch = tolower(static_cast<unsigned char>(ch));
             rating_map[h] = static_cast<int>(old_rating_value);
+            ++loaded_count;
         }
 
-        return true;
+        return loaded_count > 0;
     }
 
     // Get all the user who have particiapted in atleast one contest and their current rating before the contest. Data for ongoing contest , i.e real use case
